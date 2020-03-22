@@ -1,5 +1,6 @@
 package com.wangby.tank;
 
+import com.sun.javafx.sg.prism.web.NGWebView;
 import jdk.nashorn.internal.ir.IfNode;
 
 import java.awt.*;
@@ -10,12 +11,13 @@ import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
 
-    Tank myTank;
+    static final int GAME_WIDTH = 800, GAME_HEIGTH = 600;
+
+    Tank myTank = new Tank(100, 100, Dir.VK_DOWN);;
+    Bullet bullet = new Bullet(200, 200, Dir.VK_DOWN);
 
     public TankFrame() throws HeadlessException {
-        myTank = new Tank(100, 100, Dir.VK_DOWN);
-
-        this.setSize(800, 600);
+        this.setSize(GAME_WIDTH, GAME_HEIGTH);
         this.setTitle("tank war");
         this.setResizable(false);
         this.setVisible(true);
@@ -31,6 +33,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         myTank.tankPaint(g);
+        bullet.paint(g);
     }
 
     class MyKeyListener extends KeyAdapter {
@@ -41,8 +44,6 @@ public class TankFrame extends Frame {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            myTank.setMoving(true);
-
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:
@@ -66,10 +67,15 @@ public class TankFrame extends Frame {
         }
 
         void setMainTankDir(Tank myTank) {
-            if (bL) myTank.setDir(Dir.VK_LEFT);
-            if (bU) myTank.setDir(Dir.VK_UP);
-            if (bR) myTank.setDir(Dir.VK_RIGHT);
-            if (bD) myTank.setDir(Dir.VK_DOWN);
+            if (bL && bU && bR && bD) {
+                myTank.setMoving(false);
+            } else {
+                myTank.setMoving(true);
+                if (bL) myTank.setDir(Dir.VK_LEFT);
+                if (bU) myTank.setDir(Dir.VK_UP);
+                if (bR) myTank.setDir(Dir.VK_RIGHT);
+                if (bD) myTank.setDir(Dir.VK_DOWN);
+            }
         }
 
         @Override

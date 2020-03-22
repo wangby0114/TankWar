@@ -1,29 +1,29 @@
 package com.wangby.tank;
 
+import com.sun.scenario.effect.impl.prism.PrImage;
+
 import java.awt.*;
-import java.nio.channels.NonReadableChannelException;
 
-public class Tank {
+public class Bullet {
 
+    private static final int SPEED =1;
     private int x, y;
+    private int WIDTH = 10;
+    private int HEIGHT = 10;
     private Dir dir = Dir.VK_DOWN;
-    private static final int SPEED = 5;
-    private boolean moving = false;
 
-    private int WIDTH = 50;
-    private int HEIGHT = 50;
-
-    public Tank(int x, int y, Dir dir) {
+    public Bullet(int x, int y, Dir dir) {
         this.x = x;
         this.y = y;
         this.dir = dir;
     }
 
-    public void tankPaint(Graphics g) {
-        g.fillRect(x, y, WIDTH, HEIGHT);
-        if (moving) {
-            move();
-        }
+    public void paint(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.red);
+        g.fillOval(x, y, WIDTH, HEIGHT);
+        g.setColor(c);
+        move();
     }
 
     private void move() {
@@ -45,7 +45,6 @@ public class Tank {
                 break;
         }
     }
-
 
     public int getX() {
         return x;
@@ -69,13 +68,5 @@ public class Tank {
 
     public void setDir(Dir dir) {
         this.dir = dir;
-    }
-
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
     }
 }

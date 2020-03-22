@@ -1,5 +1,7 @@
 package com.wangby.tank;
 
+import jdk.nashorn.internal.ir.IfNode;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -39,6 +41,8 @@ public class TankFrame extends Frame {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            myTank.setMoving(true);
+
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:
@@ -70,6 +74,7 @@ public class TankFrame extends Frame {
 
         @Override
         public void keyReleased(KeyEvent e) {
+            myTank.setMoving(false);
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:

@@ -13,14 +13,20 @@ public class Tank {
     private int WIDTH = 50;
     private int HEIGHT = 50;
 
-    public Tank(int x, int y, Dir dir) {
+    private TankFrame tf;
+
+    public Tank(int x, int y, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.tf = tf;
     }
 
     public void tankPaint(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.yellow);
         g.fillRect(x, y, WIDTH, HEIGHT);
+        g.setColor(c);
         if (moving) {
             move();
         }
@@ -44,6 +50,10 @@ public class Tank {
             default:
                 break;
         }
+    }
+
+    public void fire() {
+        tf.bullet = new Bullet(this.x, this.y, this.dir);
     }
 
 

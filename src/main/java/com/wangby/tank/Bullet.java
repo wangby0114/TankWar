@@ -15,6 +15,9 @@ public class Bullet {
     private boolean buLiving = true;
     private TankFrame tf;
 
+    public static int bulletWdth = ResourceMgr.bulletL.getWidth();
+    public static int bulletHeight = ResourceMgr.bulletL.getHeight();
+
     public Bullet(int x, int y, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
@@ -23,10 +26,22 @@ public class Bullet {
     }
 
     public void paint(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(Color.red);
-        g.fillOval(x, y, WIDTH, HEIGHT);
-        g.setColor(c);
+        switch (this.dir) {
+            case VK_LEFT:
+                g.drawImage(ResourceMgr.bulletL, x, y, null);
+                break;
+            case VK_UP:
+                g.drawImage(ResourceMgr.bulletU, x, y, null);
+                break;
+            case VK_RIGHT:
+                g.drawImage(ResourceMgr.bulletR, x, y, null);
+                break;
+            case VK_DOWN:
+                g.drawImage(ResourceMgr.bulletD, x, y, null);
+                break;
+            default:
+                break;
+        }
         move();
     }
 

@@ -90,11 +90,9 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_CONTROL:
                     myTank.fire();
                     break;
-
                 default:
                     break;
             }
-
             setMainTankDir(myTank);
         }
 

@@ -63,12 +63,6 @@ public class TankFrame extends Frame {
         for (int i = 0; i < bulletList.size(); i++) {
             bulletList.get(i).paint(g);
         }
-
-//        Iterator<Bullet> iterator = bulletList.iterator();
-//        while (iterator.hasNext()) {
-//            Bullet b = iterator.next();
-//            b.paint(g);
-//        }
     }
 
     class MyKeyListener extends KeyAdapter {

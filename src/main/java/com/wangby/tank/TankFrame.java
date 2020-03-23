@@ -8,13 +8,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class TankFrame extends Frame {
 
     static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(100, 100, Dir.VK_DOWN, this);
-    Bullet bullet = new Bullet(200, 200, Dir.VK_DOWN);
+    Bullet bullet = new Bullet(200, 200, Dir.VK_DOWN, this);
+
+    public List<Bullet> bulletList = new ArrayList<Bullet>();
 
     public TankFrame() throws HeadlessException {
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -48,8 +53,22 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.white);
+        g.drawString("子弹数量：" + bulletList.size(), 50,50);
+        g.setColor(c);
+
         myTank.tankPaint(g);
-        bullet.paint(g);
+
+        for (int i = 0; i < bulletList.size(); i++) {
+            bulletList.get(i).paint(g);
+        }
+
+//        Iterator<Bullet> iterator = bulletList.iterator();
+//        while (iterator.hasNext()) {
+//            Bullet b = iterator.next();
+//            b.paint(g);
+//        }
     }
 
     class MyKeyListener extends KeyAdapter {

@@ -2,6 +2,8 @@ package com.wangby.tank;
 
 import java.awt.*;
 import java.nio.channels.NonReadableChannelException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tank {
 
@@ -53,9 +55,11 @@ public class Tank {
     }
 
     public void fire() {
-        tf.bullet = new Bullet(this.x, this.y, this.dir);
-    }
+//        Bullet b = new Bullet(this.x, this.y, this.dir);
+//        tf.bullet = b;
+        tf.bulletList.add(new Bullet(this.x, this.y, this.dir, tf));
 
+    }
 
     public int getX() {
         return x;

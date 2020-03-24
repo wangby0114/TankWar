@@ -14,13 +14,14 @@ public class Bullet {
     public static int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
     public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();
 
-    public Bullet(int x, int y, Dir dir, TankFrame tf) {
+    private Group group = Group.BAD;
+    public Bullet(int x, int y, Group group, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
+        this.group = group;
     }
-
     public void paint(Graphics g) {
         if (!this.living) {
             tf.bullets.remove(this);
@@ -94,6 +95,9 @@ public class Bullet {
     }
 
     public void collideWith(Tank tank) {
+        if (this.group == tank.getGroup()) return;
+
+        //TODO:可以分别在tanke类和bullet类里生成一个Rectangle，记录tanke和bullet的位置，在此碰撞
         Rectangle rec1 = new Rectangle(x, y, BULLET_WIDTH, BULLET_HTIGHT);
         Rectangle rec2 = new Rectangle(tank.getX(), tank.getY(), tank.TANK_WIDTH, tank.TANK_HEIGHT);
         if (rec1.intersects(rec2)) {

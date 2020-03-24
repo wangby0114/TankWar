@@ -6,7 +6,7 @@ public class Main {
 
         //初始化敌方坦克
         for (int i = 0; i < 5; i++) {
-            tf.tanks.add(new Tank(50 + i*50, 200, Dir.VK_DOWN, tf));
+            tf.tanks.add(new Tank(50 + i*50, 200, Group.BAD, Dir.VK_DOWN, tf));
         }
         
         while (true) {
@@ -15,3 +15,4 @@ public class Main {
         }
     }
 }
+

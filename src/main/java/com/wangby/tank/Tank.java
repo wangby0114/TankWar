@@ -1,13 +1,15 @@
 package com.wangby.tank;
 
 import java.awt.*;
+import java.security.Signature;
+import java.util.Random;
 
 public class Tank {
 
     private int x, y;
     private Dir dir = Dir.VK_DOWN;
     private static final int SPEED = 5;
-    private boolean moving = false;
+    private boolean moving = true;
 
     private boolean living = true;
 
@@ -15,12 +17,16 @@ public class Tank {
     public static int TANK_HEIGHT = ResourceMgr.tankL.getHeight();
 
     private TankFrame tf;
+    private Random random = new Random();
 
-    public Tank(int x, int y, Dir dir, TankFrame tf) {
+    private Group group = Group.BAD;
+
+    public Tank(int x, int y, Group group, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
+        this.group = group;
     }
 
     public void tankPaint(Graphics g) {
@@ -66,6 +72,11 @@ public class Tank {
             default:
                 break;
         }
+
+        if (random.nextInt(10) > 8) {
+            this.fire();
+        }
+
     }
 
     public void fire() {
@@ -73,7 +84,7 @@ public class Tank {
 //        tf.bullet = b;
         int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
         int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-        tf.bullets.add(new Bullet(bx, by, this.dir, tf));
+        tf.bullets.add(new Bullet(bx, by, Group.BAD, this.dir, tf));
 
     }
 
@@ -111,5 +122,13 @@ public class Tank {
 
     public void die() {
         this.living = false;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

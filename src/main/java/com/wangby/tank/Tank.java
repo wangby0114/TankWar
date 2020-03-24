@@ -1,9 +1,6 @@
 package com.wangby.tank;
 
 import java.awt.*;
-import java.nio.channels.NonReadableChannelException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Tank {
 
@@ -12,11 +9,10 @@ public class Tank {
     private static final int SPEED = 5;
     private boolean moving = false;
 
-    private int WIDTH = 50;
-    private int HEIGHT = 50;
+    private boolean living = true;
 
-    public int tankWdth = ResourceMgr.tankL.getWidth();
-    public int tankHeight = ResourceMgr.tankL.getHeight();
+    public static int TANK_WIDTH = ResourceMgr.tankL.getWidth();
+    public static int TANK_HEIGHT = ResourceMgr.tankL.getHeight();
 
     private TankFrame tf;
 
@@ -28,24 +24,28 @@ public class Tank {
     }
 
     public void tankPaint(Graphics g) {
-        switch (this.dir) {
-            case VK_LEFT:
-                g.drawImage(ResourceMgr.tankL, x, y, null);
-                break;
-            case VK_UP:
-                g.drawImage(ResourceMgr.tankU, x, y, null);
-                break;
-            case VK_RIGHT:
-                g.drawImage(ResourceMgr.tankR, x, y, null);
-                break;
-            case VK_DOWN:
-                g.drawImage(ResourceMgr.tankD, x, y, null);
-                break;
-            default:
-                break;
-        }
-        if (moving) {
-            move();
+        if (!this.living) {
+            tf.tanks.remove(this);
+        } else {
+            switch (this.dir) {
+                case VK_LEFT:
+                    g.drawImage(ResourceMgr.tankL, x, y, null);
+                    break;
+                case VK_UP:
+                    g.drawImage(ResourceMgr.tankU, x, y, null);
+                    break;
+                case VK_RIGHT:
+                    g.drawImage(ResourceMgr.tankR, x, y, null);
+                    break;
+                case VK_DOWN:
+                    g.drawImage(ResourceMgr.tankD, x, y, null);
+                    break;
+                default:
+                    break;
+            }
+            if (moving) {
+                move();
+            }
         }
     }
 
@@ -71,9 +71,9 @@ public class Tank {
     public void fire() {
 //        Bullet b = new Bullet(this.x, this.y, this.dir);
 //        tf.bullet = b;
-        int bx = this.x + this.tankWdth/2 - Bullet.bulletWdth/2;
-        int by = this.y + this.tankHeight/2 - Bullet.bulletHeight/2;
-        tf.bulletList.add(new Bullet(bx, by, this.dir, tf));
+        int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
+        int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
+        tf.bullets.add(new Bullet(bx, by, this.dir, tf));
 
     }
 
@@ -107,5 +107,9 @@ public class Tank {
 
     public void setMoving(boolean moving) {
         this.moving = moving;
+    }
+
+    public void die() {
+        this.living = false;
     }
 }

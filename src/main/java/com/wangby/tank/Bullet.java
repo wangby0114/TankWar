@@ -1,22 +1,18 @@
 package com.wangby.tank;
 
-import com.sun.scenario.effect.impl.prism.PrImage;
-
 import java.awt.*;
 
 public class Bullet {
 
     private static final int SPEED = 10;
     private int x, y;
-    private int WIDTH = 10;
-    private int HEIGHT = 10;
     private Dir dir = Dir.VK_DOWN;
 
-    private boolean buLiving = true;
+    private boolean living = true;
     private TankFrame tf;
 
-    public static int bulletWdth = ResourceMgr.bulletL.getWidth();
-    public static int bulletHeight = ResourceMgr.bulletL.getHeight();
+    public static int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
+    public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();
 
     public Bullet(int x, int y, Dir dir, TankFrame tf) {
         this.x = x;
@@ -26,23 +22,27 @@ public class Bullet {
     }
 
     public void paint(Graphics g) {
-        switch (this.dir) {
-            case VK_LEFT:
-                g.drawImage(ResourceMgr.bulletL, x, y, null);
-                break;
-            case VK_UP:
-                g.drawImage(ResourceMgr.bulletU, x, y, null);
-                break;
-            case VK_RIGHT:
-                g.drawImage(ResourceMgr.bulletR, x, y, null);
-                break;
-            case VK_DOWN:
-                g.drawImage(ResourceMgr.bulletD, x, y, null);
-                break;
-            default:
-                break;
+        if (!this.living) {
+            tf.bullets.remove(this);
+        } else {
+            switch (this.dir) {
+                case VK_LEFT:
+                    g.drawImage(ResourceMgr.bulletL, x, y, null);
+                    break;
+                case VK_UP:
+                    g.drawImage(ResourceMgr.bulletU, x, y, null);
+                    break;
+                case VK_RIGHT:
+                    g.drawImage(ResourceMgr.bulletR, x, y, null);
+                    break;
+                case VK_DOWN:
+                    g.drawImage(ResourceMgr.bulletD, x, y, null);
+                    break;
+                default:
+                    break;
+            }
+            move();
         }
-        move();
     }
 
     private void move() {
@@ -65,7 +65,7 @@ public class Bullet {
         }
 
         if (x < 0 || y < 0 || x > tf.getSize().width || y > tf.getSize().height) {
-            tf.bulletList.remove(this);
+            tf.bullets.remove(this);
         }
     }
 
@@ -91,5 +91,19 @@ public class Bullet {
 
     public void setDir(Dir dir) {
         this.dir = dir;
+    }
+
+    public void collideWith(Tank tank) {
+        Rectangle rec1 = new Rectangle(x, y, BULLET_WIDTH, BULLET_HTIGHT);
+        Rectangle rec2 = new Rectangle(tank.getX(), tank.getY(), tank.TANK_WIDTH, tank.TANK_HEIGHT);
+        if (rec1.intersects(rec2)) {
+            tank.die();
+            this.die();
+        }
+
+    }
+
+    private void die() {
+        this.living = false;
     }
 }

@@ -1,15 +1,11 @@
 package com.wangby.tank;
 
-import com.sun.javafx.sg.prism.web.NGWebView;
-import jdk.nashorn.internal.ir.IfNode;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class TankFrame extends Frame {
@@ -17,9 +13,11 @@ public class TankFrame extends Frame {
     static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
     Tank myTank = new Tank(100, 100, Dir.VK_DOWN, this);
+    List<Tank> tanks = new ArrayList<Tank>();
+
     Bullet bullet = new Bullet(200, 200, Dir.VK_DOWN, this);
 
-    public List<Bullet> bulletList = new ArrayList<Bullet>();
+    public List<Bullet> bullets = new ArrayList<Bullet>();
 
     public TankFrame() throws HeadlessException {
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -55,13 +53,24 @@ public class TankFrame extends Frame {
     public void paint(Graphics g) {
         Color c = g.getColor();
         g.setColor(Color.white);
-        g.drawString("子弹数量：" + bulletList.size(), 50,50);
+        g.drawString("子弹数量：" + bullets.size(), 10,40);
+        g.drawString("敌人数量：" + tanks.size(), 10,55);
         g.setColor(c);
 
         myTank.tankPaint(g);
 
-        for (int i = 0; i < bulletList.size(); i++) {
-            bulletList.get(i).paint(g);
+        for (int i = 0; i < tanks.size(); i++) {
+            tanks.get(i).tankPaint(g);
+        }
+
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).paint(g);
+        }
+
+        for (int i = 0; i < bullets.size(); i++) {
+            for (int j = 0; j < tanks.size(); j++) {
+                bullets.get(i).collideWith(tanks.get(j));
+            }
         }
     }
 

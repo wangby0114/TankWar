@@ -1,12 +1,11 @@
 package com.wangby.tank;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Explods {
 
     private int x, y;
-    private boolean living = true;
+    public boolean living = true;
 
     public static int WIDTH = ResourceMgr.explods[0].getWidth();
     public static int HEIGHT = ResourceMgr.explods[0].getHeight();
@@ -23,6 +22,17 @@ public class Explods {
         g.drawImage(ResourceMgr.explods[step++], x, y, null);
         if (step >= ResourceMgr.explods.length) {
             step = 0;
+            tf.explodsList.remove(this);
         }
+
+        new Thread(() -> new Audio("audio/explode.wav").play());
+    }
+
+    public boolean isLiving() {
+        return living;
+    }
+
+    public void setLiving(boolean living) {
+        this.living = living;
     }
 }

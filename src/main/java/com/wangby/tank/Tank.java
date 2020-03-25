@@ -9,7 +9,7 @@ public class Tank {
     private int x, y;
     private Dir dir = Dir.VK_DOWN;
     private static final int SPEED = 5;
-    private boolean moving = true;
+    private boolean moving = false;
 
     private boolean living = true;
 
@@ -84,7 +84,7 @@ public class Tank {
 //        tf.bullet = b;
         int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
         int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-        tf.bullets.add(new Bullet(bx, by, Group.BAD, this.dir, tf));
+        tf.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, tf));
 
     }
 

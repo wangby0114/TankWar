@@ -15,6 +15,7 @@ public class Bullet {
     public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();
 
     private Group group = Group.BAD;
+
     public Bullet(int x, int y, Group group, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
@@ -103,8 +104,9 @@ public class Bullet {
         if (rec1.intersects(rec2)) {
             tank.die();
             this.die();
-        }
 
+            tf.explodsList.add(new Explods((x - Explods.WIDTH/2), (y - Explods.HEIGHT/2), tf));
+        }
     }
 
     private void die() {

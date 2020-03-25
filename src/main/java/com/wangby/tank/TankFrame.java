@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +13,12 @@ public class TankFrame extends Frame {
 
     static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
-    Tank myTank = new Tank(100, 100, Group.GOOD,Dir.VK_DOWN, this);
+    Tank myTank = new Tank(100, 100, Group.GOOD, Dir.VK_DOWN, this);
     List<Tank> tanks = new ArrayList<Tank>();
+    List<Explods> explodsList = new ArrayList<Explods>();
 
 //    Bullet bullet = new Bullet(200, 200, Group.BAD,Dir.VK_DOWN, this);
-    Explods explods = new Explods(100, 100, this);
+//    Explods explods = new Explods(100, 100, this);
 
     public List<Bullet> bullets = new ArrayList<Bullet>();
 
@@ -56,10 +58,15 @@ public class TankFrame extends Frame {
         g.setColor(Color.white);
         g.drawString("子弹数量：" + bullets.size(), 10,40);
         g.drawString("敌人数量：" + tanks.size(), 10,55);
+        g.drawString("爆炸数量：" + explodsList.size(), 10,70);
         g.setColor(c);
 
         myTank.tankPaint(g);
-        explods.pint(g);
+//        explods.pint(g);
+
+        for (int i = 0; i < explodsList.size(); i++) {
+            explodsList.get(i).pint(g);
+        }
 
         for (int i = 0; i < tanks.size(); i++) {
             tanks.get(i).tankPaint(g);

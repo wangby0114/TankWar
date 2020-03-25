@@ -3,8 +3,8 @@ package com.wangby.tank;
 import java.awt.*;
 
 public class Bullet {
-
-    private static final int SPEED = 10;
+    PropertyMgr props = PropertyMgr.getSingleton();
+    private final int SPEED = Integer.parseInt(props.get("bulletSpeed"));
     private int x, y;
     private Dir dir = Dir.VK_DOWN;
 

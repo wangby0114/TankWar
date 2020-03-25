@@ -11,14 +11,16 @@ import java.util.List;
 
 public class TankFrame extends Frame {
 
-    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+
+    PropertyMgr props = PropertyMgr.getSingleton();
+
+    int GAME_WIDTH = Integer.parseInt(props.get("gameWidth"));
+    int GAME_HEIGHT = Integer.parseInt(props.get("gemeHeight"));
 
     Tank myTank = new Tank(100, 100, Group.GOOD, Dir.VK_DOWN, this);
     List<Tank> tanks = new ArrayList<Tank>();
     List<Explods> explodsList = new ArrayList<Explods>();
 
-//    Bullet bullet = new Bullet(200, 200, Group.BAD,Dir.VK_DOWN, this);
-//    Explods explods = new Explods(100, 100, this);
 
     public List<Bullet> bullets = new ArrayList<Bullet>();
 

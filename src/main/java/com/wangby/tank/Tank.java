@@ -12,7 +12,8 @@ public class Tank {
 
     private int x, y;
     private Dir dir = Dir.VK_DOWN;
-    private static final int SPEED = 3;
+    PropertyMgr props = PropertyMgr.getSingleton();
+    private final int SPEED = Integer.parseInt(props.get("tankSpeed"));
     private boolean moving = true;
 
     private boolean living = true;

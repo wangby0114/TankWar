@@ -1,5 +1,6 @@
 package com.wangby.tank;
 
+import com.sun.org.apache.xerces.internal.util.EntityResolverWrapper;
 import com.sun.xml.internal.ws.server.sei.TieHandler;
 import jdk.nashorn.internal.ir.IfNode;
 import sun.tools.tree.ShiftLeftExpression;
@@ -10,8 +11,8 @@ import java.util.Random;
 
 public class Tank {
 
-    private int x, y;
-    private Dir dir = Dir.VK_DOWN;
+    int x, y;
+    Dir dir = Dir.VK_DOWN;
     PropertyMgr props = PropertyMgr.getSingleton();
     private final int SPEED = Integer.parseInt(props.get("tankSpeed"));
     private boolean moving = true;
@@ -21,12 +22,15 @@ public class Tank {
     public static int TANK_WIDTH = ResourceMgr.badTankL.getWidth();
     public static int TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
 
-    private TankFrame tf;
+    TankFrame tf;
     private Random random = new Random();
 
     private Group group = Group.BAD;
 
     Rectangle rec = new Rectangle();
+
+    DefaultFireStrategy defaultFire = new DefaultFireStrategy();
+    FourDirFireStrategy fourFire = new FourDirFireStrategy();
 
     public Tank(int x, int y, Group group, Dir dir, TankFrame tf) {
         this.x = x;
@@ -68,7 +72,7 @@ public class Tank {
     }
 
     private void move() {
-        if (x<= 0
+        if (x <= 0
                 || y <= 0
                 || x >= tf.getSize().getWidth() - TANK_WIDTH
                 || y >= tf.getSize().getHeight() - TANK_HEIGHT) {
@@ -94,7 +98,7 @@ public class Tank {
         rec.x = this.x;
         rec.y = this.y;
 
-        if ((this.group == Group.BAD)  && random.nextInt(10) > 8) {
+        if ((this.group == Group.BAD) && random.nextInt(10) > 8) {
             this.fire();
         }
 
@@ -110,25 +114,29 @@ public class Tank {
         } else if (this.dir == Dir.VK_UP) {
             this.dir = Dir.VK_DOWN;
             return;
-        }
-         else if (this.dir == Dir.VK_RIGHT) {
+        } else if (this.dir == Dir.VK_RIGHT) {
             this.dir = Dir.VK_LEFT;
             return;
-        }
-         else if (this.dir == Dir.VK_DOWN) {
+        } else if (this.dir == Dir.VK_DOWN) {
             this.dir = Dir.VK_UP;
             return;
         }
     }
 
     private void randomDir() {
-         this.dir = Dir.values()[random.nextInt(4)];
+        this.dir = Dir.values()[random.nextInt(4)];
     }
 
     public void fire() {
-        int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
-        int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-        tf.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, tf));
+//        int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
+//        int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
+//        tf.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, tf));
+
+        if (this.group == Group.GOOD) {
+            fourFire.fire(this);
+        } else {
+            defaultFire.fire(this);
+        }
 
     }
 

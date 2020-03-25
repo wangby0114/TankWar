@@ -3,4 +3,4 @@ gameWidth=800
 gemeHeight=600
 initTankCount=10
 tankSpeed=5
-bulletSpeed=5
+bulletSpeed=10

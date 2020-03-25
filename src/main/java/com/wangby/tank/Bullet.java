@@ -16,12 +16,19 @@ public class Bullet {
 
     private Group group = Group.BAD;
 
+    private Rectangle rec = new Rectangle();
+
     public Bullet(int x, int y, Group group, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
         this.group = group;
+
+        rec.x = this.x;
+        rec.y = this.y;
+        rec.width = BULLET_WIDTH;
+        rec.height = BULLET_HTIGHT;
     }
     public void paint(Graphics g) {
         if (!this.living) {
@@ -66,6 +73,9 @@ public class Bullet {
                 break;
         }
 
+        rec.x = this.x;
+        rec.y = this.y;
+
         if (x < 0 || y < 0 || x > tf.getSize().width || y > tf.getSize().height) {
             tf.bullets.remove(this);
         }
@@ -105,7 +115,7 @@ public class Bullet {
             tank.die();
             this.die();
 
-            tf.explodsList.add(new Explods((x - Explods.WIDTH/2), (y - Explods.HEIGHT/2), tf));
+            tf.explodsList.add(new Explods(tank.getX() + tank.TANK_WIDTH/2 - Explods.WIDTH/2, tank.getY() + tank.TANK_HEIGHT/2 - Explods.HEIGHT/2, tf));
         }
     }
 

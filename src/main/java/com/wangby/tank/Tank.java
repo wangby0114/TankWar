@@ -1,5 +1,9 @@
 package com.wangby.tank;
 
+import com.sun.xml.internal.ws.server.sei.TieHandler;
+import jdk.nashorn.internal.ir.IfNode;
+import sun.tools.tree.ShiftLeftExpression;
+
 import java.awt.*;
 import java.security.Signature;
 import java.util.Random;
@@ -8,18 +12,20 @@ public class Tank {
 
     private int x, y;
     private Dir dir = Dir.VK_DOWN;
-    private static final int SPEED = 5;
-    private boolean moving = false;
+    private static final int SPEED = 3;
+    private boolean moving = true;
 
     private boolean living = true;
 
-    public static int TANK_WIDTH = ResourceMgr.tankL.getWidth();
-    public static int TANK_HEIGHT = ResourceMgr.tankL.getHeight();
+    public static int TANK_WIDTH = ResourceMgr.badTankL.getWidth();
+    public static int TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
 
     private TankFrame tf;
     private Random random = new Random();
 
     private Group group = Group.BAD;
+
+    Rectangle rec = new Rectangle();
 
     public Tank(int x, int y, Group group, Dir dir, TankFrame tf) {
         this.x = x;
@@ -27,6 +33,11 @@ public class Tank {
         this.dir = dir;
         this.tf = tf;
         this.group = group;
+
+        rec.x = this.x;
+        rec.y = this.y;
+        rec.width = TANK_WIDTH;
+        rec.height = TANK_HEIGHT;
     }
 
     public void tankPaint(Graphics g) {
@@ -35,16 +46,16 @@ public class Tank {
         } else {
             switch (this.dir) {
                 case VK_LEFT:
-                    g.drawImage(ResourceMgr.tankL, x, y, null);
+                    g.drawImage(group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
                     break;
                 case VK_UP:
-                    g.drawImage(ResourceMgr.tankU, x, y, null);
+                    g.drawImage(group == Group.GOOD ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
                     break;
                 case VK_RIGHT:
-                    g.drawImage(ResourceMgr.tankR, x, y, null);
+                    g.drawImage(group == Group.GOOD ? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
                     break;
                 case VK_DOWN:
-                    g.drawImage(ResourceMgr.tankD, x, y, null);
+                    g.drawImage(group == Group.GOOD ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
                     break;
                 default:
                     break;
@@ -56,6 +67,12 @@ public class Tank {
     }
 
     private void move() {
+        if (x<= 0
+                || y <= 0
+                || x >= tf.getSize().getWidth() - TANK_WIDTH
+                || y >= tf.getSize().getHeight() - TANK_HEIGHT) {
+            boundsCheck();
+        }
         switch (this.dir) {
             case VK_LEFT:
                 x -= SPEED;
@@ -73,15 +90,41 @@ public class Tank {
                 break;
         }
 
-        if (random.nextInt(10) > 8) {
+        rec.x = this.x;
+        rec.y = this.y;
+
+        if ((this.group == Group.BAD)  && random.nextInt(10) > 8) {
             this.fire();
         }
 
+        if ((this.group == Group.BAD) && random.nextInt(100) > 95) {
+            randomDir();
+        }
+    }
+
+    private void boundsCheck() {
+        if (this.dir == Dir.VK_LEFT) {
+            this.dir = Dir.VK_RIGHT;
+            return;
+        } else if (this.dir == Dir.VK_UP) {
+            this.dir = Dir.VK_DOWN;
+            return;
+        }
+         else if (this.dir == Dir.VK_RIGHT) {
+            this.dir = Dir.VK_LEFT;
+            return;
+        }
+         else if (this.dir == Dir.VK_DOWN) {
+            this.dir = Dir.VK_UP;
+            return;
+        }
+    }
+
+    private void randomDir() {
+         this.dir = Dir.values()[random.nextInt(4)];
     }
 
     public void fire() {
-//        Bullet b = new Bullet(this.x, this.y, this.dir);
-//        tf.bullet = b;
         int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
         int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
         tf.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, tf));

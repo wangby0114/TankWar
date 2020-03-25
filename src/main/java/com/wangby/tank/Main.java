@@ -8,7 +8,9 @@ public class Main {
         for (int i = 0; i < 5; i++) {
             tf.tanks.add(new Tank(50 + i*50, 200, Group.BAD, Dir.VK_DOWN, tf));
         }
-        
+
+        new Thread(() -> new Audio("audio/war1.wav").loop()).start();
+
         while (true) {
             Thread.sleep(50);
             tf.repaint();
@@ -16,5 +18,3 @@ public class Main {
         }
     }
 }
-
-

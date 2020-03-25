@@ -62,7 +62,6 @@ public class TankFrame extends Frame {
         g.setColor(c);
 
         myTank.tankPaint(g);
-//        explods.pint(g);
 
         for (int i = 0; i < explodsList.size(); i++) {
             explodsList.get(i).pint(g);

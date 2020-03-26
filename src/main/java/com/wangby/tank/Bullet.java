@@ -6,7 +6,7 @@ public class Bullet {
     PropertyMgr props = PropertyMgr.getSingleton();
     private final int SPEED = Integer.parseInt(props.get("bulletSpeed"));
     private int x, y;
-    private Dir dir_x = Dir.VK_DOWN;
+    private Dir dir = Dir.VK_DOWN;
 
     private boolean living = true;
     private TankFrame tf;

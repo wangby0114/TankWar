@@ -9,6 +9,8 @@ public class Bullet {
     private Dir dir = Dir.VK_DOWN;
 
     
+    
+    
     private boolean living = true;
     private TankFrame tf;
 

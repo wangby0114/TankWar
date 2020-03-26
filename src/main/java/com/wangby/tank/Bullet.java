@@ -7,10 +7,12 @@ public class Bullet {
     private final int SPEED = Integer.parseInt(props.get("bulletSpeed"));
     private int x, y;
     private Dir dir = Dir.VK_DOWN;
-    String str = "wangy";
+    String str = "1wangy";
     
     private boolean living = true;
     private TankFrame tf;
+    
+    
 
     public static int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
     public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();

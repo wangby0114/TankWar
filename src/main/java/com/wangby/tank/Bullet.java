@@ -7,7 +7,7 @@ public class Bullet {
     private final int SPEED = Integer.parseInt(props.get("bulletSpeed"));
     private int x, y;
     private Dir dir = Dir.VK_DOWN;
-    String str = "1212wangy";
+    String str = "wangy";
     
     private boolean living = true;
     private TankFrame tf;

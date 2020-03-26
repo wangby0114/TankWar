@@ -4,7 +4,7 @@ import com.wangby.abstractFactory.BaseBullet;
 
 import java.awt.*;
 
-public class Bullet extends BaseBullet {
+public class RecBullet extends BaseBullet {
     PropertyMgr props = PropertyMgr.getSingleton();
     private final int SPEED = Integer.parseInt(props.get("bulletSpeed"));
     private int x, y;
@@ -20,7 +20,7 @@ public class Bullet extends BaseBullet {
 
     private Rectangle rec = new Rectangle();
 
-    public Bullet(int x, int y, Group group, Dir dir, TankFrame tf) {
+    public RecBullet(int x, int y, Group group, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -41,22 +41,11 @@ public class Bullet extends BaseBullet {
         if (!this.living) {
             tf.bullets.remove(this);
         } else {
-            switch (this.dir) {
-                case VK_LEFT:
-                    g.drawImage(ResourceMgr.bulletL, x, y, null);
-                    break;
-                case VK_UP:
-                    g.drawImage(ResourceMgr.bulletU, x, y, null);
-                    break;
-                case VK_RIGHT:
-                    g.drawImage(ResourceMgr.bulletR, x, y, null);
-                    break;
-                case VK_DOWN:
-                    g.drawImage(ResourceMgr.bulletD, x, y, null);
-                    break;
-                default:
-                    break;
-            }
+            Color c = g.getColor();
+            g.setColor(Color.red);
+            g.fillRect(x, y, 10, 10);
+            g.setColor(c);
+
             move();
         }
     }

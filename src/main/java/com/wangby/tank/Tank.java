@@ -2,6 +2,7 @@ package com.wangby.tank;
 
 import com.sun.org.apache.xerces.internal.util.EntityResolverWrapper;
 import com.sun.xml.internal.ws.server.sei.TieHandler;
+import com.wangby.abstractFactory.BaseTank;
 import jdk.nashorn.internal.ir.IfNode;
 import sun.tools.tree.ShiftLeftExpression;
 
@@ -9,7 +10,7 @@ import java.awt.*;
 import java.security.Signature;
 import java.util.Random;
 
-public class Tank {
+public class Tank extends BaseTank {
 
     int x, y;
     Dir dir = Dir.VK_DOWN;
@@ -45,6 +46,7 @@ public class Tank {
         rec.height = TANK_HEIGHT;
     }
 
+    @Override
     public void tankPaint(Graphics g) {
         if (!this.living) {
             tf.tanks.remove(this);
@@ -128,10 +130,6 @@ public class Tank {
     }
 
     public void fire() {
-//        int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
-//        int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-//        tf.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, tf));
-
         if (this.group == Group.GOOD) {
             fourFire.fire(this);
         } else {

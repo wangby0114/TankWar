@@ -1,11 +1,12 @@
 package com.wangby.tank;
 
+import com.wangby.abstractFactory.*;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,12 @@ public class TankFrame extends Frame {
 
     Tank myTank = new Tank(100, 100, Group.GOOD, Dir.VK_DOWN, this);
     List<Tank> tanks = new ArrayList<Tank>();
-    List<Explods> explodsList = new ArrayList<Explods>();
+
+    GameFactory gf = new RecExplodeFactory();
+    List<BaseExplode> explodsList = new ArrayList<BaseExplode>();
 
 
-    public List<Bullet> bullets = new ArrayList<Bullet>();
+    public List<BaseBullet> bullets = new ArrayList<BaseBullet>();
 
     public TankFrame() throws HeadlessException {
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -66,7 +69,7 @@ public class TankFrame extends Frame {
         myTank.tankPaint(g);
 
         for (int i = 0; i < explodsList.size(); i++) {
-            explodsList.get(i).pint(g);
+            explodsList.get(i).paint(g);
         }
 
         for (int i = 0; i < tanks.size(); i++) {

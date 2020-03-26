@@ -1,11 +1,6 @@
 package com.wangby.tank;
 
-import com.sun.xml.internal.ws.server.sei.TieHandler;
-import jdk.nashorn.internal.ir.IfNode;
-import sun.tools.tree.ShiftLeftExpression;
-
 import java.awt.*;
-import java.security.Signature;
 import java.util.Random;
 
 public class Tank {

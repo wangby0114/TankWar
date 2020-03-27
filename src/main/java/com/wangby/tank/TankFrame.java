@@ -7,8 +7,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
-
-
     GameModel gm = new GameModel();
     int GAME_WIDTH = gm.GAME_WIDTH;
     int GAME_HEIGHT = gm.GAME_HEIGHT;
@@ -81,19 +79,19 @@ public class TankFrame extends Frame {
 
         void setMainTankDir(Tank myTank) {
             if (!bL && !bU && !bR && !bD) {
-                myTank.setMoving(false);
+                myTank.moving = false;
             } else {
-                myTank.setMoving(true);
-                if (bL) myTank.setDir(Dir.VK_LEFT);
-                if (bU) myTank.setDir(Dir.VK_UP);
-                if (bR) myTank.setDir(Dir.VK_RIGHT);
-                if (bD) myTank.setDir(Dir.VK_DOWN);
+                myTank.moving = true;
+                if (bL) myTank.dir = Dir.VK_LEFT;
+                if (bU) myTank.dir = Dir.VK_UP;
+                if (bR) myTank.dir = Dir.VK_RIGHT;
+                if (bD) myTank.dir = Dir.VK_DOWN;
             }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            gm.myTank.setMoving(false);
+            gm.myTank.moving = false;
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:

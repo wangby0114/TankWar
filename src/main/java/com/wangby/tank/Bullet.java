@@ -2,19 +2,19 @@ package com.wangby.tank;
 
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends GameObject{
     PropertyMgr props = PropertyMgr.getSingleton();
     private final int SPEED = Integer.parseInt(props.get("bulletSpeed"));
-    private int x, y;
-    private Dir dir = Dir.VK_DOWN;
+    public int x, y;
+    public Dir dir = Dir.VK_DOWN;
 
-    private boolean living = true;
-    private GameModel gm;
+    public boolean living = true;
+    public GameModel gm;
 
     public static int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
     public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();
 
-    private Group group = Group.BAD;
+    public Group group = Group.BAD;
 
     private Rectangle rec = new Rectangle();
 
@@ -30,9 +30,11 @@ public class Bullet {
         rec.width = BULLET_WIDTH;
         rec.height = BULLET_HTIGHT;
     }
+
+    @Override
     public void paint(Graphics g) {
         if (!this.living) {
-            gm.bullets.remove(this);
+            gm.objects.remove(this);
         } else {
             switch (this.dir) {
                 case VK_LEFT:
@@ -77,7 +79,7 @@ public class Bullet {
         rec.y = this.y;
 
         if (x < 0 || y < 0 || x > gm.GAME_WIDTH || y > gm.GAME_HEIGHT) {
-            gm.bullets.remove(this);
+            gm.objects.remove(this);
         }
     }
 
@@ -105,21 +107,21 @@ public class Bullet {
         this.dir = dir;
     }
 
-    public void collideWith(Tank tank) {
-        if (this.group == tank.getGroup()) return;
+//    public void collideWith(Tank tank) {
+//        if (this.group == tank.getGroup()) return;
+//
+//        //TODO:可以分别在tanke类和bullet类里生成一个Rectangle，记录tanke和bullet的位置，在此碰撞
+//        Rectangle rec1 = new Rectangle(x, y, BULLET_WIDTH, BULLET_HTIGHT);
+//        Rectangle rec2 = new Rectangle(tank.getX(), tank.getY(), tank.TANK_WIDTH, tank.TANK_HEIGHT);
+//        if (rec1.intersects(rec2)) {
+//            tank.die();
+//            this.die();
+//
+//            gm.objects.add(new Explode(tank.getX() + tank.TANK_WIDTH/2 - Explode.WIDTH/2, tank.getY() + tank.TANK_HEIGHT/2 - Explode.HEIGHT/2, gm));
+//        }
+//    }
 
-        //TODO:可以分别在tanke类和bullet类里生成一个Rectangle，记录tanke和bullet的位置，在此碰撞
-        Rectangle rec1 = new Rectangle(x, y, BULLET_WIDTH, BULLET_HTIGHT);
-        Rectangle rec2 = new Rectangle(tank.getX(), tank.getY(), tank.TANK_WIDTH, tank.TANK_HEIGHT);
-        if (rec1.intersects(rec2)) {
-            tank.die();
-            this.die();
-
-            gm.explodsList.add(new Explods(tank.getX() + tank.TANK_WIDTH/2 - Explods.WIDTH/2, tank.getY() + tank.TANK_HEIGHT/2 - Explods.HEIGHT/2, gm));
-        }
-    }
-
-    private void die() {
+    public void die() {
         this.living = false;
     }
 }

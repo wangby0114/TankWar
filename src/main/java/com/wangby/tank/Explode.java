@@ -2,7 +2,7 @@ package com.wangby.tank;
 
 import java.awt.*;
 
-public class Explods {
+public class Explode extends GameObject {
 
     private int x, y;
     public boolean living = true;
@@ -12,17 +12,18 @@ public class Explods {
     private GameModel gm;
     private int step = 0;
 
-    public Explods(int x, int y, GameModel gm) {
+    public Explode(int x, int y, GameModel gm) {
         this.x = x;
         this.y = y;
         this.gm = gm;
     }
-    
-    public void pint(Graphics g) {
+
+    @Override
+    public void paint(Graphics g) {
         g.drawImage(ResourceMgr.explods[step++], x, y, null);
         if (step >= ResourceMgr.explods.length) {
             step = 0;
-            gm.explodsList.remove(this);
+            gm.objects.remove(this);
         }
 
         new Thread(() -> new Audio("audio/explode.wav").play());

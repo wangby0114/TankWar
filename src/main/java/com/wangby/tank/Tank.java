@@ -3,15 +3,15 @@ package com.wangby.tank;
 import java.awt.*;
 import java.util.Random;
 
-public class Tank {
+public class Tank extends GameObject{
 
-    private int x, y;
-    private Dir dir = Dir.VK_DOWN;
+    public int x, y;
+    public Dir dir = Dir.VK_DOWN;
     PropertyMgr props = PropertyMgr.getSingleton();
     private final int SPEED = Integer.parseInt(props.get("tankSpeed"));
-    private boolean moving = true;
+    public boolean moving = true;
 
-    private boolean living = true;
+    public boolean living = true;
 
     public static int TANK_WIDTH = ResourceMgr.badTankL.getWidth();
     public static int TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
@@ -19,7 +19,7 @@ public class Tank {
     private GameModel gm;
     private Random random = new Random();
 
-    private Group group = Group.BAD;
+    public Group group = Group.BAD;
 
     Rectangle rec = new Rectangle();
 
@@ -36,9 +36,10 @@ public class Tank {
         rec.height = TANK_HEIGHT;
     }
 
-    public void tankPaint(Graphics g) {
+    @Override
+    public void paint(Graphics g) {
         if (!this.living) {
-            gm.tanks.remove(this);
+            gm.objects.remove(this);
         } else {
             switch (this.dir) {
                 case VK_LEFT:
@@ -123,40 +124,8 @@ public class Tank {
     public void fire() {
         int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
         int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-        gm.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, gm));
+        gm.objects.add(new Bullet(bx, by, this.getGroup(), this.dir, gm));
 
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public Dir getDir() {
-        return dir;
-    }
-
-    public void setDir(Dir dir) {
-        this.dir = dir;
-    }
-
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
     }
 
     public void die() {
@@ -169,5 +138,13 @@ public class Tank {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public Rectangle getRec() {
+        return rec;
+    }
+
+    public void stop() {
+        moving = false;
     }
 }

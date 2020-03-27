@@ -5,24 +5,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.nio.channels.NonWritableChannelException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TankFrame extends Frame {
 
 
-    PropertyMgr props = PropertyMgr.getSingleton();
-
-    int GAME_WIDTH = Integer.parseInt(props.get("gameWidth"));
-    int GAME_HEIGHT = Integer.parseInt(props.get("gemeHeight"));
-
-    Tank myTank = new Tank(100, 100, Group.GOOD, Dir.VK_DOWN, this);
-    List<Tank> tanks = new ArrayList<Tank>();
-    List<Explods> explodsList = new ArrayList<Explods>();
-
-
-    public List<Bullet> bullets = new ArrayList<Bullet>();
+    GameModel gm = new GameModel();
+    int GAME_WIDTH = gm.GAME_WIDTH;
+    int GAME_HEIGHT = gm.GAME_HEIGHT;
 
     public TankFrame() throws HeadlessException {
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -56,32 +45,7 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(Color.white);
-        g.drawString("子弹数量：" + bullets.size(), 10,40);
-        g.drawString("敌人数量：" + tanks.size(), 10,55);
-        g.drawString("爆炸数量：" + explodsList.size(), 10,70);
-        g.setColor(c);
-
-        myTank.tankPaint(g);
-
-        for (int i = 0; i < explodsList.size(); i++) {
-            explodsList.get(i).pint(g);
-        }
-
-        for (int i = 0; i < tanks.size(); i++) {
-            tanks.get(i).tankPaint(g);
-        }
-
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).paint(g);
-        }
-
-        for (int i = 0; i < bullets.size(); i++) {
-            for (int j = 0; j < tanks.size(); j++) {
-                bullets.get(i).collideWith(tanks.get(j));
-            }
-        }
+        gm.paint(g);
     }
 
     class MyKeyListener extends KeyAdapter {
@@ -107,12 +71,12 @@ public class TankFrame extends Frame {
                     bD = true;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    myTank.fire();
+                    gm.myTank.fire();
                     break;
                 default:
                     break;
             }
-            setMainTankDir(myTank);
+            setMainTankDir(gm.myTank);
         }
 
         void setMainTankDir(Tank myTank) {
@@ -129,7 +93,7 @@ public class TankFrame extends Frame {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            myTank.setMoving(false);
+            gm.myTank.setMoving(false);
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:

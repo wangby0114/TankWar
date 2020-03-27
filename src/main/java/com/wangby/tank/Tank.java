@@ -16,18 +16,18 @@ public class Tank {
     public static int TANK_WIDTH = ResourceMgr.badTankL.getWidth();
     public static int TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
 
-    private TankFrame tf;
+    private GameModel gm;
     private Random random = new Random();
 
     private Group group = Group.BAD;
 
     Rectangle rec = new Rectangle();
 
-    public Tank(int x, int y, Group group, Dir dir, TankFrame tf) {
+    public Tank(int x, int y, Group group, Dir dir, GameModel gm) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.tf = tf;
+        this.gm = gm;
         this.group = group;
 
         rec.x = this.x;
@@ -38,7 +38,7 @@ public class Tank {
 
     public void tankPaint(Graphics g) {
         if (!this.living) {
-            tf.tanks.remove(this);
+            gm.tanks.remove(this);
         } else {
             switch (this.dir) {
                 case VK_LEFT:
@@ -65,8 +65,8 @@ public class Tank {
     private void move() {
         if (x<= 0
                 || y <= 0
-                || x >= tf.getSize().getWidth() - TANK_WIDTH
-                || y >= tf.getSize().getHeight() - TANK_HEIGHT) {
+                || x >= gm.GAME_WIDTH - TANK_WIDTH
+                || y >= gm.GAME_HEIGHT - TANK_HEIGHT) {
             boundsCheck();
         }
         switch (this.dir) {
@@ -123,7 +123,7 @@ public class Tank {
     public void fire() {
         int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
         int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-        tf.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, tf));
+        gm.bullets.add(new Bullet(bx, by, this.getGroup(), this.dir, gm));
 
     }
 

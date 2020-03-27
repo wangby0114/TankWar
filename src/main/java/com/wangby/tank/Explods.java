@@ -9,20 +9,20 @@ public class Explods {
 
     public static int WIDTH = ResourceMgr.explods[0].getWidth();
     public static int HEIGHT = ResourceMgr.explods[0].getHeight();
-    private TankFrame tf;
+    private GameModel gm;
     private int step = 0;
 
-    public Explods(int x, int y, TankFrame tf) {
+    public Explods(int x, int y, GameModel gm) {
         this.x = x;
         this.y = y;
-        this.tf = tf;
+        this.gm = gm;
     }
     
     public void pint(Graphics g) {
         g.drawImage(ResourceMgr.explods[step++], x, y, null);
         if (step >= ResourceMgr.explods.length) {
             step = 0;
-            tf.explodsList.remove(this);
+            gm.explodsList.remove(this);
         }
 
         new Thread(() -> new Audio("audio/explode.wav").play());

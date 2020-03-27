@@ -9,7 +9,7 @@ public class Bullet {
     private Dir dir = Dir.VK_DOWN;
 
     private boolean living = true;
-    private TankFrame tf;
+    private GameModel gm;
 
     public static int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
     public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();
@@ -18,11 +18,11 @@ public class Bullet {
 
     private Rectangle rec = new Rectangle();
 
-    public Bullet(int x, int y, Group group, Dir dir, TankFrame tf) {
+    public Bullet(int x, int y, Group group, Dir dir, GameModel gm) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.tf = tf;
+        this.gm = gm;
         this.group = group;
 
         rec.x = this.x;
@@ -32,7 +32,7 @@ public class Bullet {
     }
     public void paint(Graphics g) {
         if (!this.living) {
-            tf.bullets.remove(this);
+            gm.bullets.remove(this);
         } else {
             switch (this.dir) {
                 case VK_LEFT:
@@ -76,8 +76,8 @@ public class Bullet {
         rec.x = this.x;
         rec.y = this.y;
 
-        if (x < 0 || y < 0 || x > tf.getSize().width || y > tf.getSize().height) {
-            tf.bullets.remove(this);
+        if (x < 0 || y < 0 || x > gm.GAME_WIDTH || y > gm.GAME_HEIGHT) {
+            gm.bullets.remove(this);
         }
     }
 
@@ -115,7 +115,7 @@ public class Bullet {
             tank.die();
             this.die();
 
-            tf.explodsList.add(new Explods(tank.getX() + tank.TANK_WIDTH/2 - Explods.WIDTH/2, tank.getY() + tank.TANK_HEIGHT/2 - Explods.HEIGHT/2, tf));
+            gm.explodsList.add(new Explods(tank.getX() + tank.TANK_WIDTH/2 - Explods.WIDTH/2, tank.getY() + tank.TANK_HEIGHT/2 - Explods.HEIGHT/2, gm));
         }
     }
 

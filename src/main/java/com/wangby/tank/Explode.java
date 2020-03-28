@@ -3,8 +3,6 @@ package com.wangby.tank;
 import java.awt.*;
 
 public class Explode extends GameObject {
-
-    private int x, y;
     public boolean living = true;
 
     public static int WIDTH = ResourceMgr.explods[0].getWidth();

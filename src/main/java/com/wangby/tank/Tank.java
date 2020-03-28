@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.Random;
 
 public class Tank extends GameObject{
-    public int x, y;
     public Dir dir = Dir.VK_DOWN;
     PropertyMgr props = PropertyMgr.getSingleton();
     private final int SPEED = Integer.parseInt(props.get("tankSpeed"));

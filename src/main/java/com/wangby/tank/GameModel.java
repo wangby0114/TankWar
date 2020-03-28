@@ -20,8 +20,6 @@ public class GameModel {
         return INSTANCE;
     }
 
-
-
     Tank myTank;
     //初始化变量
     private void init () {

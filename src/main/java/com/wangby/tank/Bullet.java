@@ -5,7 +5,6 @@ import java.awt.*;
 public class Bullet extends GameObject{
     PropertyMgr props = PropertyMgr.getSingleton();
     private final int SPEED = Integer.parseInt(props.get("bulletSpeed"));
-    public int x, y;
     public Dir dir = Dir.VK_DOWN;
 
     public boolean living = true;

@@ -7,9 +7,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
-    GameModel gm = new GameModel();
-    int GAME_WIDTH = gm.GAME_WIDTH;
-    int GAME_HEIGHT = gm.GAME_HEIGHT;
+    GameModel INSTANCE = GameModel.getInstance();
+    int GAME_WIDTH = INSTANCE.GAME_WIDTH;
+    int GAME_HEIGHT = INSTANCE.GAME_HEIGHT;
 
     public TankFrame() throws HeadlessException {
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -43,7 +43,7 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        gm.paint(g);
+        INSTANCE.paint(g);
     }
 
     class MyKeyListener extends KeyAdapter {
@@ -69,12 +69,12 @@ public class TankFrame extends Frame {
                     bD = true;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    gm.myTank.fire();
+                    INSTANCE.myTank.fire();
                     break;
                 default:
                     break;
             }
-            setMainTankDir(gm.myTank);
+            setMainTankDir(INSTANCE.myTank);
         }
 
         void setMainTankDir(Tank myTank) {
@@ -91,7 +91,7 @@ public class TankFrame extends Frame {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            gm.myTank.moving = false;
+            INSTANCE.myTank.moving = false;
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:

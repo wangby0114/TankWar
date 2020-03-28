@@ -12,8 +12,8 @@ public class TankTankCollider implements Collider {
 
             if (t1.getRec().intersects(t2.getRec())) {
                 //TODO 坦克和坦克碰撞之后，调转方向处理
-                //t1.stop();
-                //t2.stop();
+                t1.back();
+                t2.back();
                 //坦克和坦克相撞，没有消失，所以不用永远返回true
                 //return false;
             }

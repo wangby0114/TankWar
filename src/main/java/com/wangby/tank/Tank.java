@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.Random;
 
 public class Tank extends GameObject{
-
     public int x, y;
     public Dir dir = Dir.VK_DOWN;
     PropertyMgr props = PropertyMgr.getSingleton();
@@ -13,21 +12,23 @@ public class Tank extends GameObject{
 
     public boolean living = true;
 
+    public int oldx, oldy;
+
     public static int TANK_WIDTH = ResourceMgr.badTankL.getWidth();
     public static int TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
 
-    private GameModel gm;
     private Random random = new Random();
 
     public Group group = Group.BAD;
 
     Rectangle rec = new Rectangle();
 
-    public Tank(int x, int y, Group group, Dir dir, GameModel gm) {
+    GameModel INSTANCE = GameModel.getInstance();
+
+    public Tank(int x, int y, Group group, Dir dir) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
         this.group = group;
 
         rec.x = this.x;
@@ -39,7 +40,7 @@ public class Tank extends GameObject{
     @Override
     public void paint(Graphics g) {
         if (!this.living) {
-            gm.objects.remove(this);
+            INSTANCE.objects.remove(this);
         } else {
             switch (this.dir) {
                 case VK_LEFT:
@@ -64,12 +65,9 @@ public class Tank extends GameObject{
     }
 
     private void move() {
-        if (x<= 0
-                || y <= 0
-                || x >= gm.GAME_WIDTH - TANK_WIDTH
-                || y >= gm.GAME_HEIGHT - TANK_HEIGHT) {
-            boundsCheck();
-        }
+        oldx = x;
+        oldy = y;
+
         switch (this.dir) {
             case VK_LEFT:
                 x -= SPEED;
@@ -86,6 +84,13 @@ public class Tank extends GameObject{
             default:
                 break;
         }
+        if (x<= 0
+                || y <= 0
+                || x >= INSTANCE.GAME_WIDTH - TANK_WIDTH
+                || y >= INSTANCE.GAME_HEIGHT - TANK_HEIGHT) {
+            //boundsCheck();
+            this.back();
+        }
 
         rec.x = this.x;
         rec.y = this.y;
@@ -97,6 +102,11 @@ public class Tank extends GameObject{
         if ((this.group == Group.BAD) && random.nextInt(100) > 95) {
             randomDir();
         }
+    }
+
+    public void back() {
+        x = oldx;
+        y = oldy;
     }
 
     private void boundsCheck() {
@@ -124,7 +134,7 @@ public class Tank extends GameObject{
     public void fire() {
         int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
         int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-        gm.objects.add(new Bullet(bx, by, this.getGroup(), this.dir, gm));
+        INSTANCE.objects.add(new Bullet(bx, by, this.getGroup(), this.dir));
 
     }
 

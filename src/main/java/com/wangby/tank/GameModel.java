@@ -1,15 +1,48 @@
 package com.wangby.tank;
 
-import com.wangby.cor.BulletTankCollider;
-import com.wangby.cor.Collider;
 import com.wangby.cor.ColliderChain;
-import com.wangby.cor.TankTankCollider;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameModel {
+    //私有构造方法
+    private GameModel() {}
+    //类的实例化
+    public static final GameModel INSTANCE = new GameModel();
+
+    static {
+        INSTANCE.init();
+    }
+
+    public static GameModel getInstance() {
+        return INSTANCE;
+    }
+
+
+
+    Tank myTank;
+    //初始化变量
+    private void init () {
+        //初始化主战坦克
+        myTank = new Tank(100, 100, Group.GOOD, Dir.VK_DOWN);
+        //初始化敌方坦克
+        int tankCount = Integer.parseInt(props.get("initTankCount"));
+        {
+            for (int i = 0; i < tankCount; i++) {
+                this.add(new Tank(50 + i * 60, 200, Group.BAD, Dir.VK_DOWN));
+            }
+        }
+
+        //初始化墙壁
+        this.add(new Wall( 185,90,30,120));
+        this.add(new Wall(585,90,30,120));
+        this.add(new Wall(385,270,30,120));
+        this.add(new Wall(185,390,30,120));
+        this.add(new Wall(585,390,30,120));
+    }
+
     PropertyMgr props = PropertyMgr.getSingleton();
     int GAME_WIDTH = Integer.parseInt(props.get("gameWidth"));
     int GAME_HEIGHT = Integer.parseInt(props.get("gemeHeight"));
@@ -37,15 +70,6 @@ public class GameModel {
         this.objects.remove(go);
     }
 
-    Tank myTank = new Tank(100, 100, Group.GOOD, Dir.VK_DOWN, this);
-
-    //初始化敌方坦克
-    int tankCount = Integer.parseInt(props.get("initTankCount"));
-    {
-        for (int i = 0; i < tankCount; i++) {
-            this.add(new Tank(50 + i * 60, 200, Group.BAD, Dir.VK_DOWN, this));
-        }
-    }
     public void paint(Graphics g) {
 //        Color c = g.getColor();
 //        g.setColor(Color.white);
@@ -59,6 +83,7 @@ public class GameModel {
             objects.get(i).paint(g);
         }
 
+        //碰撞测试
         for (int i = 0; i < objects.size(); i++) {
             boolean signal = true;
             for (int j = i+1; j < objects.size(); j++) {

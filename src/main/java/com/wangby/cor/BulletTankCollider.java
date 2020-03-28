@@ -1,10 +1,7 @@
 package com.wangby.cor;
 
 import com.sun.xml.internal.bind.v2.model.core.ID;
-import com.wangby.tank.Bullet;
-import com.wangby.tank.Explode;
-import com.wangby.tank.GameObject;
-import com.wangby.tank.Tank;
+import com.wangby.tank.*;
 
 import java.awt.*;
 
@@ -35,7 +32,7 @@ public class BulletTankCollider implements Collider {
         if (rec1.intersects(rec2)) {
             o1.die();
             o2.die();
-            o1.gm.objects.add(new Explode(o2.x + o2.TANK_WIDTH/2 - Explode.WIDTH/2, o2.y + o2.TANK_HEIGHT/2 - Explode.HEIGHT/2, o1.gm));
+            GameModel.getInstance().objects.add(new Explode(o2.x + o2.TANK_WIDTH/2 - Explode.WIDTH/2, o2.y + o2.TANK_HEIGHT/2 - Explode.HEIGHT/2));
             return true;
         }
         return false;

@@ -9,20 +9,20 @@ public class Bullet extends GameObject{
     public Dir dir = Dir.VK_DOWN;
 
     public boolean living = true;
-    public GameModel gm;
 
     public static int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
     public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();
 
     public Group group = Group.BAD;
 
-    private Rectangle rec = new Rectangle();
+    public Rectangle rec = new Rectangle();
 
-    public Bullet(int x, int y, Group group, Dir dir, GameModel gm) {
+    GameModel INSTANCE = GameModel.getInstance();
+
+    public Bullet(int x, int y, Group group, Dir dir) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
         this.group = group;
 
         rec.x = this.x;
@@ -34,7 +34,7 @@ public class Bullet extends GameObject{
     @Override
     public void paint(Graphics g) {
         if (!this.living) {
-            gm.objects.remove(this);
+            INSTANCE.objects.remove(this);
         } else {
             switch (this.dir) {
                 case VK_LEFT:
@@ -78,33 +78,9 @@ public class Bullet extends GameObject{
         rec.x = this.x;
         rec.y = this.y;
 
-        if (x < 0 || y < 0 || x > gm.GAME_WIDTH || y > gm.GAME_HEIGHT) {
-            gm.objects.remove(this);
+        if (x < 0 || y < 0 || x > INSTANCE.GAME_WIDTH || y > INSTANCE.GAME_HEIGHT) {
+            INSTANCE.objects.remove(this);
         }
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public Dir getDir() {
-        return dir;
-    }
-
-    public void setDir(Dir dir) {
-        this.dir = dir;
     }
 
 //    public void collideWith(Tank tank) {

@@ -8,7 +8,9 @@ import java.util.List;
 
 public class GameModel {
     //私有构造方法
-    private GameModel() {}
+    private GameModel() {
+    }
+
     //类的实例化
     public static final GameModel INSTANCE = new GameModel();
 
@@ -21,8 +23,9 @@ public class GameModel {
     }
 
     Tank myTank;
+
     //初始化变量
-    private void init () {
+    private void init() {
         //初始化主战坦克
         myTank = new Tank(100, 100, Group.GOOD, Dir.VK_DOWN);
         //初始化敌方坦克
@@ -34,11 +37,11 @@ public class GameModel {
         }
 
         //初始化墙壁
-        this.add(new Wall( 185,90,30,120));
-        this.add(new Wall(585,90,30,120));
-        this.add(new Wall(385,270,30,120));
-        this.add(new Wall(185,390,30,120));
-        this.add(new Wall(585,390,30,120));
+        this.add(new Wall(185, 90, 30, 120));
+        this.add(new Wall(585, 90, 30, 120));
+        this.add(new Wall(385, 270, 30, 120));
+        this.add(new Wall(185, 390, 30, 120));
+        this.add(new Wall(585, 390, 30, 120));
     }
 
     PropertyMgr props = PropertyMgr.getSingleton();
@@ -53,7 +56,7 @@ public class GameModel {
 //    public List<Bullet> bullets = new ArrayList<Bullet>();
 
     public List<GameObject> objects = new ArrayList<>();
-    
+
     //子弹坦克碰撞器
 //    Collider bulletTankCol = new BulletTankCollider();
 //    Collider tankTankCol = new TankTankCollider();
@@ -84,7 +87,7 @@ public class GameModel {
         //碰撞测试
         for (int i = 0; i < objects.size(); i++) {
             boolean signal = true;
-            for (int j = i+1; j < objects.size(); j++) {
+            for (int j = i + 1; j < objects.size(); j++) {
                 GameObject o1 = objects.get(i);
                 GameObject o2 = objects.get(j);
                 signal = colliderChain.collide(o1, o2);
@@ -93,6 +96,7 @@ public class GameModel {
             if (!signal) break;
 
         }
+
 
 //        //画出爆炸效果
 //        for (int i = 0; i < explodsList.size(); i++) {
@@ -114,5 +118,9 @@ public class GameModel {
 //                bullets.get(i).collideWith(tanks.get(j));
 //            }
 //        }
+    }
+
+    public Tank gteMainTank() {
+        return myTank;
     }
 }

@@ -2,8 +2,16 @@ package com.wangby.tank;
 
 import com.wangby.decorator.RecDecorator;
 import com.wangby.decorator.TailDecorator;
+import com.wangby.fireobserver.FireListener;
+import com.wangby.fireobserver.FireListerer1;
+import com.wangby.observer2.TankFireEvent;
+import com.wangby.observer2.TankFireHandle;
+import com.wangby.observer2.TankFireObserver;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class Tank extends GameObject{
@@ -15,6 +23,8 @@ public class Tank extends GameObject{
     public boolean living = true;
 
     public int oldx, oldy;
+
+    List<FireListener> listenerList = new LinkedList<>();
 
     public static int WIDTH = ResourceMgr.badTankL.getWidth();
     public static int HEIGHE = ResourceMgr.badTankL.getHeight();
@@ -37,6 +47,8 @@ public class Tank extends GameObject{
         rec.y = this.y;
         rec.width = WIDTH;
         rec.height = HEIGHE;
+
+        listenerList.add(new FireListerer1());
     }
 
     @Override
@@ -134,9 +146,19 @@ public class Tank extends GameObject{
     }
 
     public void fire() {
-        int bx = this.x + this.WIDTH /2 - Bullet.WIDTH /2;
-        int by = this.y + this.HEIGHE /2 - Bullet.HEIGHT /2;
-        INSTANCE.objects.add(new RecDecorator(new TailDecorator(new Bullet(bx, by, this.getGroup(), this.dir))));
+        for (int i = 0; i < listenerList.size(); i++) {
+//            FireListener fireListener = listenerList.get(i);
+//            fireListener.executeFire(this);
+
+            int bx = this.x + this.WIDTH /2 - Bullet.WIDTH /2;
+            int by = this.y + this.HEIGHE /2 - Bullet.HEIGHT /2;
+            //用装饰者模式给子弹添加外壳
+            //GameModel.getInstance().objects.add(new RecDecorator(new TailDecorator(new Bullet(bx, by, this.getGroup(), this.dir))));
+
+            //马老师观察者模式写法
+            GameModel.getInstance().objects.add(new Bullet(bx, by, this.getGroup(), this.dir));
+
+        }
     }
 
     public void die() {
@@ -167,5 +189,14 @@ public class Tank extends GameObject{
     @Override
     public int getHeight() {
         return HEIGHE;
+    }
+
+    private List<TankFireObserver> observers = Arrays.asList(new TankFireHandle());
+    public void handleFireKey() {
+        TankFireEvent event = new TankFireEvent(this);
+        for (TankFireObserver o : observers) {
+            o.actionOnFire(event);
+        }
+
     }
 }

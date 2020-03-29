@@ -1,10 +1,7 @@
 package com.wangby.tank;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public class TankFrame extends Frame {
     GameModel INSTANCE = GameModel.getInstance();
@@ -52,8 +49,9 @@ public class TankFrame extends Frame {
         boolean bR = false;
         boolean bD = false;
 
+
         @Override
-        public void keyPressed(KeyEvent e) {
+         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:
@@ -69,7 +67,8 @@ public class TankFrame extends Frame {
                     bD = true;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    INSTANCE.myTank.fire();
+                    //INSTANCE.myTank.fire();
+                    INSTANCE.gteMainTank().handleFireKey();
                     break;
                 default:
                     break;

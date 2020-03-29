@@ -1,5 +1,8 @@
 package com.wangby.tank;
 
+import com.wangby.decorator.RecDecorator;
+import com.wangby.decorator.TailDecorator;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -13,8 +16,8 @@ public class Tank extends GameObject{
 
     public int oldx, oldy;
 
-    public static int TANK_WIDTH = ResourceMgr.badTankL.getWidth();
-    public static int TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
+    public static int WIDTH = ResourceMgr.badTankL.getWidth();
+    public static int HEIGHE = ResourceMgr.badTankL.getHeight();
 
     private Random random = new Random();
 
@@ -32,8 +35,8 @@ public class Tank extends GameObject{
 
         rec.x = this.x;
         rec.y = this.y;
-        rec.width = TANK_WIDTH;
-        rec.height = TANK_HEIGHT;
+        rec.width = WIDTH;
+        rec.height = HEIGHE;
     }
 
     @Override
@@ -85,8 +88,8 @@ public class Tank extends GameObject{
         }
         if (x<= 0
                 || y <= 0
-                || x >= INSTANCE.GAME_WIDTH - TANK_WIDTH
-                || y >= INSTANCE.GAME_HEIGHT - TANK_HEIGHT) {
+                || x >= INSTANCE.GAME_WIDTH - WIDTH
+                || y >= INSTANCE.GAME_HEIGHT - HEIGHE) {
             //boundsCheck();
             this.back();
         }
@@ -131,10 +134,9 @@ public class Tank extends GameObject{
     }
 
     public void fire() {
-        int bx = this.x + this.TANK_WIDTH /2 - Bullet.BULLET_WIDTH /2;
-        int by = this.y + this.TANK_HEIGHT /2 - Bullet.BULLET_HTIGHT /2;
-        INSTANCE.objects.add(new Bullet(bx, by, this.getGroup(), this.dir));
-
+        int bx = this.x + this.WIDTH /2 - Bullet.WIDTH /2;
+        int by = this.y + this.HEIGHE /2 - Bullet.HEIGHT /2;
+        INSTANCE.objects.add(new RecDecorator(new TailDecorator(new Bullet(bx, by, this.getGroup(), this.dir))));
     }
 
     public void die() {
@@ -155,5 +157,15 @@ public class Tank extends GameObject{
 
     public void stop() {
         moving = false;
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHE;
     }
 }

@@ -9,8 +9,8 @@ public class Bullet extends GameObject{
 
     public boolean living = true;
 
-    public static int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
-    public static int BULLET_HTIGHT = ResourceMgr.bulletL.getHeight();
+    public static int WIDTH = ResourceMgr.bulletL.getWidth();
+    public static int HEIGHT = ResourceMgr.bulletL.getHeight();
 
     public Group group = Group.BAD;
 
@@ -26,8 +26,8 @@ public class Bullet extends GameObject{
 
         rec.x = this.x;
         rec.y = this.y;
-        rec.width = BULLET_WIDTH;
-        rec.height = BULLET_HTIGHT;
+        rec.width = WIDTH;
+        rec.height = HEIGHT;
     }
 
     @Override
@@ -98,5 +98,15 @@ public class Bullet extends GameObject{
 
     public void die() {
         this.living = false;
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 }

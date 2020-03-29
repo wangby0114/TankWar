@@ -1,6 +1,5 @@
 package com.wangby.cor;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import com.wangby.tank.*;
 
 import java.awt.*;
@@ -27,12 +26,12 @@ public class BulletTankCollider implements Collider {
     public boolean collideWith(Bullet o1, Tank o2) {
         if (o1.group == o2.group) return false;
         //TODO:可以分别在tanke类和bullet类里生成一个Rectangle，记录tanke和bullet的位置，在此碰撞
-        Rectangle rec1 = new Rectangle(o1.x, o1.y, o1.BULLET_WIDTH, o1.BULLET_HTIGHT);
-        Rectangle rec2 = new Rectangle(o2.x, o2.y, o2.TANK_WIDTH, o2.TANK_HEIGHT);
+        Rectangle rec1 = new Rectangle(o1.x, o1.y, o1.WIDTH, o1.HEIGHT);
+        Rectangle rec2 = new Rectangle(o2.x, o2.y, o2.WIDTH, o2.HEIGHE);
         if (rec1.intersects(rec2)) {
             o1.die();
             o2.die();
-            GameModel.getInstance().objects.add(new Explode(o2.x + o2.TANK_WIDTH/2 - Explode.WIDTH/2, o2.y + o2.TANK_HEIGHT/2 - Explode.HEIGHT/2));
+            GameModel.getInstance().objects.add(new Explode(o2.x + o2.WIDTH /2 - Explode.WIDTH/2, o2.y + o2.HEIGHE /2 - Explode.HEIGHT/2));
             return true;
         }
         return false;

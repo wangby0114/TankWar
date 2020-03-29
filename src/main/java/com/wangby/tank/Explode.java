@@ -34,4 +34,14 @@ public class Explode extends GameObject {
     public void setLiving(boolean living) {
         this.living = living;
     }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
+    }
 }

@@ -30,8 +30,9 @@ public class PropertyMgr {
         return (String)props.get(key);
     }
 
-    public static void main(String[] args) {
-        String str = (String) PropertyMgr.getSingleton().get("gameWidth");
-        System.out.println(str);
-    }
+    //测试代码
+//    public static void main(String[] args) {
+//        String str = (String) PropertyMgr.getSingleton().get("gameWidth");
+//        System.out.println(str);
+//    }
 }
